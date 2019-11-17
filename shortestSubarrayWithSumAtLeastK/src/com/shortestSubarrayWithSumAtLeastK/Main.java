@@ -84,15 +84,29 @@ class Solution2 {
             }
         }
         while(tailIndex < headIndex){
-            if(tailIndex)
-            queueSum+=A[headIndex];
-            headIndex++;
+            //踢掉队末一个
+            queueSum -= A[tailIndex];
+            tailIndex++;
             if(queueSum >= K){
-                minLength = Integer.min(minLength, headIndex - tailIndex);
-                while(queueSum - A[tailIndex] >= K && tailIndex<headIndex){
-                    queueSum-=A[tailIndex];
-                    tailIndex++;
-                    minLength = Integer.min(minLength, headIndex - tailIndex);
+                minLength = Integer.min(minLength,headIndex - tailIndex);
+            }
+            //如果队末是正的，则对头继续向前
+            if(A[tailIndex-1]>=0){
+                while(headIndex < A.length && headIndex - tailIndex <= K){
+                    queueSum += A[headIndex];
+                    headIndex++;
+                    if(queueSum >= K){
+                        minLength = Integer.min(minLength,headIndex - tailIndex);
+                        break;
+                    }
+                }
+            } else{
+                while(headIndex > tailIndex + 1){
+                    queueSum -= A[headIndex - 1];
+                    headIndex--;
+                    if(queueSum >= K){
+                        minLength = Integer.min(minLength,headIndex - tailIndex);
+                    }
                 }
             }
         }
