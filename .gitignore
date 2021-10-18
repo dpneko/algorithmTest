@@ -942,3 +942,7 @@ _deps
 *.out
 *.app
 
+
+
+**/.project
+javaTest/
